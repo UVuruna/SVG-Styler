@@ -1,3 +1,4 @@
+// DECORATIONS FOR METHODS
 export function MeasureExecutionTime(target, propertyKey, descriptor) {
     /*
     This decorator measures the execution time of a method.
@@ -39,62 +40,6 @@ export function LogMethodCall(target, propertyKey, descriptor) {
     };
     return descriptor;
 }
-export function LogClassCreation(constructor) {
-    /*
-        This decorator logs the creation of a class instance.
-        It wraps the constructor and logs the arguments used to create the instance.
-        Usage:
-        @LogClassCreation
-        class MyClass {
-            constructor(arg1, arg2) {
-                // constructor implementation
-            }
-        }
-    */
-    const originalConstructor = constructor;
-    function newConstructor(...args) {
-        console.log(`Creating instance of ${originalConstructor.name} with arguments:`, args);
-        return new originalConstructor(...args);
-    }
-    newConstructor.prototype = originalConstructor.prototype;
-    return newConstructor;
-}
-export function CatchErrors(target, propertyKey, descriptor) {
-    /*
-        This decorator catches errors thrown by a method.
-        It wraps the original method and logs any errors that occur.
-        If an error occurs, it returns null or a default value.
-        Usage:
-        @CatchErrors
-        methodName() {
-            // method implementation
-        }
-    */
-    const originalMethod = descriptor.value;
-    descriptor.value = function (...args) {
-        try {
-            return originalMethod.apply(this, args);
-        }
-        catch (error) {
-            console.error(`[${propertyKey}] threw an error:`, error);
-            return null;
-        }
-    };
-    return descriptor;
-}
-export function Readonly(target, propertyKey) {
-    /*
-        This decorator makes a property read-only.
-        It prevents the property from being modified after it is set.
-        Usage:
-        @Readonly
-        propertyName: string;
-    */
-    Object.defineProperty(target, propertyKey, {
-        writable: false,
-        configurable: false,
-    });
-}
 export function Throttle(delay) {
     /*
         This decorator throttles the execution of a method.
@@ -118,4 +63,83 @@ export function Throttle(delay) {
         };
         return descriptor;
     };
+}
+// DECORATORS FOR CLASS CREATION
+export function LogClassCreation(constructor) {
+    /*
+        This decorator logs the creation of a class instance.
+        It wraps the constructor and logs the arguments used to create the instance.
+        Usage:
+        @LogClassCreation
+        class MyClass {
+            constructor(arg1, arg2) {
+                // constructor implementation
+            }
+        }
+    */
+    return class extends constructor {
+        constructor(...args) {
+            console.log(`Creating instance of ${constructor.name} with arguments:`, args);
+            super(...args);
+        }
+    };
+}
+export function MeasureConstructionTime(constructor) {
+    /*
+        This decorator measures the time taken to create an instance of a class.
+        It wraps the constructor and logs the time taken to create the instance.
+        Usage:
+        @MeasureConstructionTime
+        class MyClass {
+            constructor(arg1, arg2) {
+                // constructor implementation
+            }
+        }
+    */
+    return class extends constructor {
+        constructor(...args) {
+            const start = performance.now();
+            super(...args);
+            const end = performance.now();
+            console.log(`[${constructor.name}] instance created in ${end - start} ms`);
+        }
+    };
+}
+// DECORATORS FOR ERROR HANDLING
+export function CatchErrors(target, propertyKey, descriptor) {
+    /*
+        This decorator catches errors thrown by a method.
+        It wraps the original method and logs any errors that occur.
+        If an error occurs, it returns null or a default value.
+        Usage:
+        @CatchErrors
+        methodName() {
+            // method implementation
+        }
+    */
+    const originalMethod = descriptor.value;
+    descriptor.value = function (...args) {
+        try {
+            return originalMethod.apply(this, args);
+        }
+        catch (error) {
+            console.error(`[${propertyKey}] threw an error:`, error);
+            return null;
+        }
+    };
+    return descriptor;
+}
+// DECORATORS FOR PROPERTY MODIFICATION
+export function Readonly(target, propertyKey) {
+    /*
+        This decorator makes a property read-only.
+        It prevents the property from being modified after it is set.
+        Usage:
+        @Readonly
+        propertyName: string;
+    */
+    Object.defineProperty(target, propertyKey, {
+        writable: false,
+        configurable: false,
+    });
 }

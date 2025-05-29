@@ -46,8 +46,6 @@ export class KnobSlider {
             Initialize the KnobSlider with a root element, default value, and maximum value.
             Set up the necessary elements and event listeners for interaction.
         */
-        this.rotateKnob = this.rotateKnob.bind(this)
-
         this.slider = root
         this.knob = root.querySelector('.knob')! as HTMLElement
         this.rotator = root.querySelector('.rotator')! as HTMLElement
@@ -64,7 +62,6 @@ export class KnobSlider {
     }
 
     @decorator.CatchErrors
-    @decorator.LogMethodCall
     @decorator.Throttle(1000)
     @decorator.MeasureExecutionTime
     private resetKnob(): void {
@@ -78,12 +75,7 @@ export class KnobSlider {
         this.exactValue.value  = this.defaultValue.toString()
     }
 
-
-    @decorator.CatchErrors
-    @decorator.LogMethodCall
-    @decorator.Throttle(50)
-    @decorator.MeasureExecutionTime
-    private rotateKnob(e: MouseEvent | TouchEvent): void {
+    private rotateKnob = (e: MouseEvent | TouchEvent): void => {
         /*
             Prevent default behavior for touchmove to avoid scrolling
             Calculate the angle based on the mouse/touch position relative to the center of the knob
@@ -144,7 +136,6 @@ export class KnobSlider {
     }
 
     @decorator.CatchErrors
-    @decorator.LogMethodCall
     @decorator.MeasureExecutionTime
     private initListeners(): void {
         /*

@@ -1,5 +1,6 @@
 // DECORATIONS FOR METHODS
 
+
 export function MeasureExecutionTime(
     target: any,
     propertyKey: string,

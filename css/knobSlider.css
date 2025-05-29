@@ -5,8 +5,20 @@
     value display, and filter type.
 */
 
+/* 
+    For the MAIN KNOB SLIDER container
+    Includes: slider-container (DIV) = [ slider (DIV) * n(7) ]
+*/
+#slider-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
 /*
-    For the main slider container
+    For the main Single Slider container
     Includes: slider (DIV) = [ knob (DIV), progress-bar (DIV), exact-value (INPUT) ]
 */
 .slider {
