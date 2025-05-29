@@ -1,0 +1,114 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Regular-subset.woff2') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Bold-subset.woff2') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@media (min-width: 1000px) {
+    html {
+        font-size: 1.2vw;
+    }
+}
+@media (max-width: 1000px) and (min-width: 600px) {
+    html {
+        font-size: 2vw;
+    }
+}
+@media (max-width: 600px) {
+    html {
+        font-size: 3vw;
+    }
+}
+
+html,
+body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+
+
+html,
+button,
+input,
+textarea {
+    font-family: 'Poppins', 'Arial', 'sans-serif';
+}
+
+body {
+    color: #333;
+    font-weight: 400;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 0;
+    padding: 20px;
+    height: 100%;
+    transition: background-color 0.5s ease;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    background-color: inherit;
+    transition: opacity 0.5s ease;
+}
+
+button {
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    max-width: fit-content;
+
+    padding: 0.5em 1.25em;
+    border-radius: 1.25em;
+    border: 2px outset #888;
+    background-color: #ddd;
+
+    transition: all 0.5s;
+    &:hover {
+        transform: scale(1.1);
+        background-color: #666;
+        border-color: #999;
+        color: #ddd;
+    }
+}
+
+h1,
+h2,
+h3,
+button {
+    font-weight: 700;
+    text-align: center;
+}
+p,
+div,
+section,
+article {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+* {
+    box-sizing: border-box;
+    border: none;
+    text-decoration: none;
+    background: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+}

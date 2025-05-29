@@ -1,0 +1,1 @@
+import*as klasa from"./klasa.js";const mojRacunar=new klasa.Racunar("HP"),rezultat=mojRacunar.izracunaj(1e8);console.log("Rezultat:",rezultat,mojRacunar.naziv);

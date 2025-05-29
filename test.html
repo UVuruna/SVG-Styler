@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Circular Slider</title>
+    <!--Google Fonts and Icons-->
+    <link
+        href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round|Material+Icons+Sharp|Material+Icons+Two+Tone"
+        rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        body {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            background: rgb(235, 235, 235);
+        }
+
+        .center {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider {
+            width: 50vw;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            user-select: none;
+        }
+
+        .knob {
+            width: 75%;
+            height: 75%;
+            background: rgb(222, 222, 222);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .knob .rotator {
+            width: 80%;
+            height: 80%;
+            background: rgb(235, 235, 235);
+            border-radius: 50%;
+            box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.2), inset 2px 4px 2px white,
+                4px -2px 2px rgba(0, 0, 0, 0.2), -2px 0px 2px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5%;
+            z-index: 1;
+            position: relative;
+        }
+
+        .knob .rotator-fake {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .knob .value-text {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .knob .value {
+            font-family: poppins;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: rgb(57, 55, 53);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .knob .text {
+            font-family: poppins;
+            font-size: 1rem;
+            color: rgb(57, 55, 53);
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .pointer {
+            position: absolute;
+            height: 20%;
+            top: -1%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        circle {
+            fill: none;
+        }
+
+        circle:nth-child(1) {
+            stroke: rgba(0, 0, 0, 0.7);
+            stroke-width: 35px;
+            stroke-dasharray: 613;
+            transform-origin: center;
+            transform: rotate(135deg);
+            stroke-linecap: round;
+        }
+
+        circle:nth-child(2) {
+            stroke: rgb(2, 117, 232);
+            stroke-width: 35px;
+            stroke-dasharray: 817;
+            stroke-dashoffset: calc(817 - (613 * 50) / 100);
+            transform-origin: center;
+            transform: rotate(135deg);
+            stroke-linecap: round;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 100%;
+        }
+
+        .exact-value {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="center">
+        <div id="slider" class="slider">
+            <div class="knob">
+                <div class="rotator">
+                    <div class="value-text">
+                        <span class="value">100</span>
+                        <span>%</span>
+                    </div>
+                    <div class="text">brightness</div>
+                </div>
+                <div class="rotator-fake">
+                    <svg class="pointer" id="pointer" viewBox="0 0 100 84">
+                        <polygon points="50 0 0 84 100 84 50 0" />
+                    </svg>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <svg viewBox="0 0 300 300">
+                    <circle class="progress-circle" cx="150" cy="150" r="130"></circle>
+                    <circle id="circle" class="progress-circle" cx="150" cy="150" r="130"
+                        style="stroke: url(#gradient); stroke-width: 30px"></circle>
+                    <defs>
+                        <lineargradient id="gradient" x1="80%" y1="20%" x2="10%" y2="90%">
+                            <stop offset="0%" style="stop-color: red" />
+                            <stop offset="30%" style="stop-color: orange" />
+                            <stop offset="60%" style="stop-color: yellow" />
+                            <stop offset="100%" style="stop-color: limegreen" />
+                        </lineargradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="exact-value"></div>
+        </div>
+    </div>
+
+    <script>
+        const slider = document.getElementById('slider')
+        const circle = document.getElementById('circle')
+
+        const knob = document.querySelector('.knob')
+        const pointer = document.querySelector('.rotator-fake')
+        const value = document.querySelector('.value')
+        const exactValue = document.querySelector('.exact-value')
+        const rotator = document.querySelector('.rotator')
+        let isRotating = false
+
+
+        const resetKnob = e => {
+            isRotating = false
+            pointer.style.transform = 'rotate(0deg)'
+            circle.style.strokeDashoffset = '510'
+            value.innerHTML = '100'
+            exactValue.innerHTML = '100'
+        }
+
+        const rotateKnob = e => {
+            if (e.type === 'touchmove') e.preventDefault()
+
+            if (isRotating) {
+                let knobX = knob.getBoundingClientRect().left + knob.clientWidth / 2
+                let knobY = knob.getBoundingClientRect().top + knob.clientHeight / 2
+                let clientX = (e.touches && e.touches.length > 0) ? e.touches[0].clientX : e.clientX
+                let clientY = (e.touches && e.touches.length > 0) ? e.touches[0].clientY : e.clientY
+
+                const deltaX = clientX - knobX
+                const deltaY = clientY - knobY
+
+                const angleRad = Math.atan2(deltaY, deltaX)
+                const angleDeg = (angleRad * 180) / Math.PI
+
+                const rotationAngle = (angleDeg - 135 + 360) % 360
+
+                if (rotationAngle <= 270) {
+                    const progressPercent = rotationAngle / 270
+
+                    pointer.style.transform = `rotate(${rotationAngle - 135}deg)`
+                    circle.style.strokeDashoffset = `${817 - 613 * progressPercent
+                        }`
+                    value.innerHTML = `${Math.round(progressPercent * 200)}`
+                    exactValue.innerHTML = `${progressPercent * 200}`
+                } else if (rotationAngle <= 360 && rotationAngle > 353) {
+                    circle.style.strokeDashoffset = '817'
+                    value.innerHTML = '0'
+                    exactValue.innerHTML = '0'
+                    pointer.style.transform = `rotate(-135deg)`
+                } else if (rotationAngle < 277 && rotationAngle > 270) {
+                    circle.style.strokeDashoffset = '204'
+                    value.innerHTML = '200'
+                    exactValue.innerHTML = '200'
+                    pointer.style.transform = `rotate(135deg)`
+                }
+            }
+        }
+
+
+        
+
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+            // Mobile devices
+            let lastTap = 0
+            function doubleTap(e) {
+                const now = new Date().getTime();
+                const tapLength = now - lastTap;
+
+                if (tapLength < 300 && tapLength > 0) resetKnob()
+                lastTap = now
+            }
+
+            slider.addEventListener('touchstart', () => isRotating = true)
+            slider.addEventListener('touchmove', rotateKnob)
+            slider.addEventListener('touchend', () => isRotating = false)
+            rotator.addEventListener('touchend', doubleTap)
+        } else {
+            // Desktop devices
+            slider.addEventListener('mousedown', () => isRotating = true)
+            document.addEventListener('mousemove', rotateKnob)
+            document.addEventListener('mouseup', () => isRotating = false)
+            rotator.addEventListener('dblclick', () => resetKnob())
+        }
+    </script>
+</body>
+
+</html>
