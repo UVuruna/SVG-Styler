@@ -1,0 +1,135 @@
+/*
+    Knob Slider CSS
+    This file contains the styles for the knob slider component.
+    It includes styles for the slider, knob, rotator, pointer frame, progress bar,
+    value display, and filter type.
+*/
+
+/*
+    For the main slider container
+    Includes: slider (DIV) = [ knob (DIV), progress-bar (DIV), exact-value (INPUT) ]
+*/
+.slider {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+/* Includes: knob (DIV) = [ rotator (DIV) , .pointer-frame (DIV) ] */
+.knob {
+    width: 75%;
+    height: 75%;
+    background: rgb(222, 222, 222);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Includes: rotator (DIV) = [ value-unit (DIV) , filter-type (DIV) ] */
+.knob .rotator {
+    width: 80%;
+    height: 80%;
+    background: rgb(235, 235, 235);
+    border-radius: 50%;
+    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.2), inset 2px 4px 2px white,
+        4px -2px 2px rgba(0, 0, 0, 0.2), -2px 0px 2px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5%;
+    z-index: 1;
+    position: relative;
+}
+
+/*
+    For the pointer frame and pointer svg
+    Includes: pointer-frame (DIV) = pointer (SVG)
+*/
+.knob .pointer-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+.pointer {
+    position: absolute;
+    height: 20%;
+    top: -1%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/*
+    For the colored progress bar
+    Includes: progress-bar (DIV) = SVG with 2 circles
+*/
+.progress-bar {
+    width: 100%;
+    height: 100%;
+}
+circle {
+    fill: none;
+    transform-origin: center;
+    transform: rotate(135deg);
+    stroke-linecap: round;
+}
+circle:nth-child(1) {
+    stroke: rgba(0, 0, 0, 0.7);
+    stroke-width: 35px;
+    stroke-dasharray: 613;
+}
+circle:nth-child(2) {
+    stroke-width: 30px;
+    stroke-dasharray: 817;
+    stroke-dashoffset: 510;
+}
+
+/*
+    For the value inside the knob
+    Includes: value-unit (DIV) = [ value (SPAN) , unit (SPAN) ]
+*/
+.knob .value-unit {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+.knob .value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgb(57, 55, 53);
+    border-radius: 50%;
+    line-height: 1;
+}
+.knob .unit {
+    font-size: 0.8rem;
+    color: rgb(57, 55, 53);
+    margin-left: 5px;
+}
+
+
+/* For the Filter Type for Calculation (VISIBLE) */
+.knob .filter-type {
+    font-size: 1rem;
+    color: rgb(57, 55, 53);
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* For the INPUT of exact value inside the knob for Calculations (NOT VISIBLE) */
+.exact-value {
+    display: none;
+}
