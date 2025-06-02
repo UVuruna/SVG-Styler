@@ -15,15 +15,39 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    flex-wrap: wrap;
+    gap: 1vw
 }
 
 /*
-    For the main Single Slider container
-    Includes: slider (DIV) = [ knob (DIV), progress-bar (DIV), exact-value (INPUT) ]
+    Includes: slider(DIV) = [ slider-wrapper(DIV), filter-type (DIV) ]
 */
 .slider {
+    display: block;
+}
+/* For the Filter Type for Calculation (VISIBLE) */
+.filter-type {
     width: 100%;
-    aspect-ratio: 1;
+    text-align: center;
+    font-size: 1rem;
+    color: rgb(57, 55, 53);
+    text-transform: uppercase;
+    font-weight: 700;
+    white-space: nowrap;
+}
+/*
+    For the main Single Slider container
+    Includes: slider-wrapper(DIV) = [ knob (DIV), progress-bar (DIV), filter-type (DIV) ]
+*/
+
+@media (min-width: 800px) {.slider {width: 13vw}}
+@media (max-width: 800px) {
+    #slider-container > :nth-child(-n+3) {width: 28vw}
+    #slider-container > :nth-last-child(-n+4) {width: 23.5vw}
+}
+.slider-wrapper{
+    aspect-ratio: 1/1;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,7 +59,7 @@
 /* Includes: knob (DIV) = [ rotator (DIV) , .pointer-frame (DIV) ] */
 .knob {
     width: 75%;
-    height: 75%;
+    aspect-ratio: 1/1;
     background: rgb(222, 222, 222);
     border-radius: 50%;
     position: absolute;
@@ -46,23 +70,6 @@
     align-items: center;
     justify-content: center;
 }
-/* Includes: rotator (DIV) = [ value-unit (DIV) , filter-type (DIV) ] */
-.knob .rotator {
-    width: 80%;
-    height: 80%;
-    background: rgb(235, 235, 235);
-    border-radius: 50%;
-    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.2), inset 2px 4px 2px white,
-        4px -2px 2px rgba(0, 0, 0, 0.2), -2px 0px 2px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 5%;
-    z-index: 1;
-    position: relative;
-}
-
 /*
     For the pointer frame and pointer svg
     Includes: pointer-frame (DIV) = pointer (SVG)
@@ -75,72 +82,90 @@
     height: 100%;
     background: transparent;
 }
+.knob:is(:hover,:active) .pointer {
+    bottom: -3%;
+}
 .pointer {
     position: absolute;
     height: 20%;
-    top: -1%;
+    bottom: -1%;
     left: 50%;
     transform: translateX(-50%);
 }
-
 /*
     For the colored progress bar
-    Includes: progress-bar (DIV) = SVG with 2 circles
+    Includes: progress-bar (DIV) = SVG with n+1 circles
 */
 .progress-bar {
     width: 100%;
     height: 100%;
+    transform: rotate(90deg);
 }
 circle {
     fill: none;
-    transform-origin: center;
-    transform: rotate(135deg);
-    stroke-linecap: round;
 }
 circle:nth-child(1) {
     stroke: rgba(0, 0, 0, 0.7);
-    stroke-width: 35px;
-    stroke-dasharray: 613;
+    stroke-width: 40px;
+    stroke-dasharray: 848;
+    transform-origin: center;
+    stroke-linecap: round;
 }
-circle:nth-child(2) {
-    stroke-width: 30px;
-    stroke-dasharray: 817;
-    stroke-dashoffset: 510;
+circle:nth-child(n+2) {
+    stroke-width: 36px;
+    stroke-dasharray: 0 848;
+    transform-origin: center;
+    stroke-linecap: round;
 }
-
 /*
-    For the value inside the knob
-    Includes: value-unit (DIV) = [ value (SPAN) , unit (SPAN) ]
+    For the value and unit inside the knob on the rotator
+    Includes: rotator (DIV) = [ value (SPAN) , unit (SPAN), exact-value (INPUT) ]
 */
-.knob .value-unit {
+.knob .rotator {
+    width: 80%;
+    aspect-ratio: 1/1;
+    background: rgb(235, 235, 235);
+    border-radius: 50%;
     position: relative;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
+    z-index: 1;
+}
+
+@media (min-width: 800px) {
+    .knob .rotator {
+        box-shadow: 0.26vw 0.26vw 0.26vw rgba(0, 0, 0, 0.2), inset 0.09vw 0.17vw 0.09vw white,
+            0.17vw -0.09vw 0.09vw rgba(0, 0, 0, 0.2), -0.09vw 0px 0.09vw rgba(0, 0, 0, 0.2);
+    }
+    .knob .rotator:is(:hover,:active) {
+        transform: scale(1.02);
+        box-shadow: 0.36vw 0.36vw 0.36vw rgba(0, 0, 0, 0.4), inset 0.36vw 0.36vw 0.13vw white,
+            0.28vw -0.13vw 0.13vw rgba(0, 0, 0, 0.4), -0.13vw 0px 0.13vw rgba(0, 0, 0, 0.4);
+    }
+}
+@media (max-width: 800px) {
+    .knob .rotator {
+        box-shadow: 0.36vw 0.36vw 0.36vw rgba(0, 0, 0, 0.2), inset 0.13vw 0.28vw 0.18vw white,
+            0.28vw -0.13vw 0.13vw rgba(0, 0, 0, 0.2), -0.13vw 0px 0.13vw rgba(0, 0, 0, 0.2);
+    }
+    .knob .rotator:is(:hover,:active) {
+        transform: scale(1.03);
+        box-shadow: 0.48vw 0.48vw 0.48vw rgba(0, 0, 0, 0.4), inset 0.40vw 0.40vw 0.18vw white,
+            0.36vw -0.18vw 0.18vw rgba(0, 0, 0, 0.4), -0.18vw 0px 0.18vw rgba(0, 0, 0, 0.4);
+    }
 }
 .knob .value {
-    font-size: 1.5rem;
+    font-size: 1.53rem;
     font-weight: 600;
     color: rgb(57, 55, 53);
     border-radius: 50%;
     line-height: 1;
 }
 .knob .unit {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: rgb(57, 55, 53);
-    margin-left: 5px;
 }
-
-
-/* For the Filter Type for Calculation (VISIBLE) */
-.knob .filter-type {
-    font-size: 1rem;
-    color: rgb(57, 55, 53);
-    text-transform: uppercase;
-    font-weight: 800;
-    letter-spacing: 1px;
-}
-
 /* For the INPUT of exact value inside the knob for Calculations (NOT VISIBLE) */
 .exact-value {
     display: none;

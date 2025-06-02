@@ -10,7 +10,7 @@
             $name,
             $slider['value'],
             $slider['unit'],
-            $slider['coords'],
+            $curves[$slider['curves']],
             $slider['offsets']
         );
     }

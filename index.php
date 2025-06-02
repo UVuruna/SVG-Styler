@@ -17,7 +17,6 @@
         <?php include 'html/loadSVG.html'; ?>
         <?php include 'html/knobSlider.php'; ?>
     </main>
-    <script type="module" src="./js/main.js"></script>
     <script type="module" src="./js/page/loadSVG.js"></script>
     <script type="module">
         import { SliderInitializer } from './js/slider/initKnobSlider.js';
@@ -26,12 +25,14 @@
             array_map(function($s) {
                 return [
                     'value' => $s['value'],
-                    'maxValue' => $s['maxValue']
+                    'maxValue' => $s['maxValue'],
+                    'radius' => $s['radius'],
+                    'infinite' => $s['infinite']
                 ];
             }, $sliders)
         ) ?>;
-
-        SliderInitializer.initKnobSlider(sliders);
+        SliderInitializer.init(sliders);
+        console.log(`Total init Time ${window.totalTime} ms`);
     </script>
 </body>
 

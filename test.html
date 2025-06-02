@@ -31,8 +31,8 @@
         }
 
         .slider {
-            width: 50vw;
-            aspect-ratio: 1;
+            width: 40vw;
+            aspect-ratio: 1 / 1;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -41,8 +41,8 @@
         }
 
         .knob {
-            width: 75%;
-            height: 75%;
+            width: 73%;
+            height: 73%;
             background: rgb(222, 222, 222);
             border-radius: 50%;
             position: absolute;
@@ -121,30 +121,46 @@
 
         circle:nth-child(1) {
             stroke: rgba(0, 0, 0, 0.7);
-            stroke-width: 35px;
-            stroke-dasharray: 613;
+            stroke-width: 40px;
+            stroke-dasharray: 848;
             transform-origin: center;
-            transform: rotate(135deg);
             stroke-linecap: round;
         }
 
-        circle:nth-child(2) {
-            stroke: rgb(2, 117, 232);
-            stroke-width: 35px;
-            stroke-dasharray: 817;
-            stroke-dashoffset: calc(817 - (613 * 50) / 100);
+        circle:nth-child(n+2) {
+            stroke-width: 36px;
+            stroke-dasharray: 0 848;
             transform-origin: center;
-            transform: rotate(135deg);
             stroke-linecap: round;
         }
 
         .progress-bar {
             width: 100%;
             height: 100%;
+            transform: rotate(-90deg);
         }
 
         .exact-value {
             display: none;
+        }
+        /* Circle LD = Bottom Left (0–90°) */
+        #circle-LD {
+            transform: rotate(180deg);
+        }
+
+        /* Circle LU = Top Left (90–180°) */
+        #circle-LU {
+            transform: rotate(270deg);
+        }
+
+        /* Circle RU = Top Right (180–270°) */
+        #circle-RU {
+            transform: rotate(0deg);
+        }
+
+        /* Circle RD = Bottom Right (270–360°) */
+        #circle-RD {
+            transform: rotate(90deg);
         }
     </style>
 </head>
@@ -169,14 +185,38 @@
             <div class="progress-bar">
                 <svg viewBox="0 0 300 300">
                     <circle class="progress-circle" cx="150" cy="150" r="130"></circle>
-                    <circle id="circle" class="progress-circle" cx="150" cy="150" r="130"
-                        style="stroke: url(#gradient); stroke-width: 30px"></circle>
+                    <circle id="circle-LD" class="progress-circle" cx="150" cy="150" r="130"
+                        style="stroke: url(#gradient-LD)"></circle>
+                    <circle id="circle-LU" class="progress-circle" cx="150" cy="150" r="130"
+                        style="stroke: url(#gradient-LU)"></circle>
+                    <circle id="circle-RU" class="progress-circle" cx="150" cy="150" r="130"
+                        style="stroke: url(#gradient-RU)"></circle>
+                    <circle id="circle-RD" class="progress-circle" cx="150" cy="150" r="130"
+                        style="stroke: url(#gradient-RD)"></circle>
                     <defs>
-                        <lineargradient id="gradient" x1="80%" y1="20%" x2="10%" y2="90%">
-                            <stop offset="0%" style="stop-color: red" />
-                            <stop offset="30%" style="stop-color: orange" />
-                            <stop offset="60%" style="stop-color: yellow" />
-                            <stop offset="100%" style="stop-color: limegreen" />
+                        <lineargradient id="gradient-LD" x1="67.7%" y1="32.3%" x2="32.3%" y2="67.7%">
+                            <stop offset="0%" style="stop-color: rgb(255, 0, 0)" />
+                            <stop offset="33.3%" style="stop-color: rgb(255, 0, 128)" />
+                            <stop offset="66.6%" style="stop-color: rgb(255, 0, 225)" />
+                            <stop offset="100%" style="stop-color: rgb(128, 0, 225)" />
+                        </lineargradient>
+                        <lineargradient id="gradient-LU" x1="67.7%" y1="32.3%" x2="32.3%" y2="67.7%">
+                            <stop offset="0%" style="stop-color: rgb(128, 0, 225)" />
+                            <stop offset="33.3%" style="stop-color: rgb(0, 0, 225)" />
+                            <stop offset="66.6%" style="stop-color: rgb(0, 128, 225)" />
+                            <stop offset="100%" style="stop-color: rgb(0, 255, 225)" />
+                        </lineargradient>
+                        <lineargradient id="gradient-RU" x1="67.7%" y1="32.3%" x2="32.3%" y2="67.7%">
+                            <stop offset="0%" style="stop-color: rgb(0, 255, 225)" />
+                            <stop offset="33.3%" style="stop-color: rgb(0, 255, 128)" />
+                            <stop offset="66.6%" style="stop-color: rgb(0, 255, 0)" />
+                            <stop offset="100%" style="stop-color: rgb(128, 255, 0)" />
+                        </lineargradient>
+                        <lineargradient id="gradient-RD" x1="67.7%" y1="32.3%" x2="32.3%" y2="67.7%">
+                            <stop offset="0%" style="stop-color: rgb(128, 255, 0)" />
+                            <stop offset="33.3%" style="stop-color: rgb(255, 255, 0)" />
+                            <stop offset="66.6%" style="stop-color: rgb(255, 128, 0)" />
+                            <stop offset="100%" style="stop-color: rgb(255, 0, 0)" />
                         </lineargradient>
                     </defs>
                 </svg>
@@ -187,7 +227,10 @@
 
     <script>
         const slider = document.getElementById('slider')
-        const circle = document.getElementById('circle')
+        const circleLD = document.getElementById('circle-LD')
+        const circleLU = document.getElementById('circle-LU')
+        const circleRU = document.getElementById('circle-RU')
+        const circleRD = document.getElementById('circle-RD')
 
         const knob = document.querySelector('.knob')
         const pointer = document.querySelector('.rotator-fake')
@@ -220,27 +263,37 @@
                 const angleRad = Math.atan2(deltaY, deltaX)
                 const angleDeg = (angleRad * 180) / Math.PI
 
-                const rotationAngle = (angleDeg - 135 + 360) % 360
+                const rotationAngle = (angleDeg - 90 + 360) % 360
+                const progressPercent = rotationAngle / 360
 
-                if (rotationAngle <= 270) {
-                    const progressPercent = rotationAngle / 270
+                
+                const circles = [circleLD, circleLU, circleRU, circleRD]
+                const percentage = 1 / circles.length
+                const index = Math.floor(rotationAngle / (360 * percentage))
+                
 
-                    pointer.style.transform = `rotate(${rotationAngle - 135}deg)`
-                    circle.style.strokeDashoffset = `${817 - 613 * progressPercent
-                        }`
-                    value.innerHTML = `${Math.round(progressPercent * 200)}`
-                    exactValue.innerHTML = `${progressPercent * 200}`
-                } else if (rotationAngle <= 360 && rotationAngle > 353) {
-                    circle.style.strokeDashoffset = '817'
-                    value.innerHTML = '0'
-                    exactValue.innerHTML = '0'
-                    pointer.style.transform = `rotate(-135deg)`
-                } else if (rotationAngle < 277 && rotationAngle > 270) {
-                    circle.style.strokeDashoffset = '204'
-                    value.innerHTML = '200'
-                    exactValue.innerHTML = '200'
-                    pointer.style.transform = `rotate(135deg)`
+                let element = circles[index]
+                let before = true
+
+                for (const [i, ele] of circles.entries()) {                  
+                    if (ele === element) {
+                        before = false
+                        const full = 817 * ( progressPercent - percentage * i )
+                        const empty = 204 - full
+                        console.log(full,empty)
+                        ele.style.strokeDasharray = `${full} ${848-full}`
+                    } 
+                    if (before) {
+                        ele.style.strokeDasharray = '204 613'
+                    } else if (ele !== element) {
+                        ele.style.strokeDasharray = '0 818'
+                    }
+
+                    
                 }
+                pointer.style.transform = `rotate(${rotationAngle-180}deg)`
+                value.innerHTML = `${Math.round(progressPercent * 200)}`
+                exactValue.innerHTML = `${progressPercent * 200}`
             }
         }
 

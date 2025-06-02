@@ -7,20 +7,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { KnobSlider } from './knobSlider.js';
+import { KnobSlider } from './funcKnob.js';
 import * as decorator from '../decorator.js';
 export class SliderInitializer {
-    static initKnobSlider(sliders) {
+    static init(sliders) {
         /*
-                Initialize all KnobSliders on the page with the provided sliders configuration.
-                Each slider is created with its respective default value and maximum value.
-            */
-        const sliderElements = document.querySelectorAll('.slider');
-        for (const el of sliderElements) {
+            Initialize all KnobSliders on the page with the provided sliders configuration.
+            Each slider is created with its respective default value and maximum value.
+        */
+        SliderInitializer.sliderElements = document.querySelectorAll('.slider');
+        for (const el of SliderInitializer.sliderElements) {
             const element = el;
-            const name = element.getAttribute('ID');
-            const config = sliders[name];
-            new KnobSlider(element, config.value, config.maxValue);
+            const config = sliders[element.id];
+            new KnobSlider(element, config.value, config.maxValue, config.radius, config.infinite);
         }
     }
 }
@@ -30,4 +29,4 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], SliderInitializer, "initKnobSlider", null);
+], SliderInitializer, "init", null);

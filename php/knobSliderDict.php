@@ -4,82 +4,141 @@ $sliders = [
         'value' => 100,
         'unit' => '%',
         'maxValue' => 200,
-        'coords' => [80, 20, 10, 90],
+        'infinite' => true,
+        'radius' => 360,
+        'curves' => 'Trio',
         'offsets' => [
-            '0%' => 'red',
-            '30%' => 'orange',
-            '60%' => 'yellow',
-            '100%' => 'limegreen'
+            'rgb(0, 255, 255)',
+            'rgb(0, 255, 0)',
+            'rgb(255, 255, 0)', 
+            'rgb(255, 128, 0)',
+            'rgb(255, 0, 0)',
+            'rgb(0, 0, 255)'
         ]
     ],
     'contrast' => [
         'value' => 100,
         'unit' => '%',
         'maxValue' => 200,
-        'coords' => [80, 20, 10, 90],
+        'infinite' => true,
+        'radius' => 360,
+        'curves' => 'Trio',
         'offsets' => [
-            '0%' => 'red',
-            '30%' => 'orange',
-            '60%' => 'yellow',
-            '100%' => 'limegreen'
+            'rgb(0, 255, 255)',
+            'rgb(0, 255, 0)',
+            'rgb(255, 255, 0)', 
+            'rgb(255, 128, 0)',
+            'rgb(255, 0, 0)',
+            'rgb(0, 0, 255)'
         ]
     ],
     'saturation' => [
         'value' => 100,
         'unit' => '%',
         'maxValue' => 200,
-        'coords' => [80, 20, 10, 90],
+        'infinite' => true,
+        'radius' => 360,
+        'curves' => 'Trio',
         'offsets' => [
-            '0%' => 'red',
-            '30%' => 'orange',
-            '60%' => 'yellow',
-            '100%' => 'limegreen'
+            'rgb(0, 255, 255)',
+            'rgb(0, 255, 0)',
+            'rgb(255, 255, 0)', 
+            'rgb(255, 128, 0)',
+            'rgb(255, 0, 0)',
+            'rgb(0, 0, 255)'
         ]
     ],
-    'hue' => [
+    'hue-rotate' => [
         'value' => 0,
         'unit' => '°',
         'maxValue' => 360,
-        'coords' => [80, 20, 10, 90],
+        'infinite' => false,
+        'radius' => 360,
+        'curves' => 'Quattro',
         'offsets' => [
-            '0%' => 'red',
-            '25%' => 'orange',
-            '50%' => 'yellow',
-            '75%' => 'green',
-            '100%' => 'blue'
+            'rgb(0, 255, 0)',
+            'rgb(128, 255, 0)',
+            'rgb(255, 255, 0)', 
+            'rgb(255, 128, 0)',
+            'rgb(255, 0, 0)',
+            'rgb(255, 0, 128)',
+            'rgb(255, 0, 255)',
+            'rgb(128, 0, 255)',
+            'rgb(0, 0, 255)',
+            'rgb(0, 128, 255)',
+            'rgb(0, 255, 255)',
+            'rgb(0, 255, 128)'
         ]
     ],
     'invert' => [
         'value' => 0,
         'unit' => '%',
         'maxValue' => 100,
-        'coords' => [80, 20, 10, 90],
+        'infinite' => false,
+        'radius' => 270,
+        'curves' => 'Quattro',
         'offsets' => [
-            '0%' => 'red',
-            '50%' => 'orange',
-            '100%' => 'limegreen'
+            'rgb(0, 255, 255)',
+            'rgb(0, 255, 0)',
+            'rgb(255, 255, 0)', 
+            'rgb(255, 128, 0)',
+            'rgb(255, 0, 0)',
+            'rgb(93, 0, 255)',
+            'rgb(255, 0, 195)',
+            'rgb(0, 0, 255)'
         ]
     ],
     'sepia' => [
         'value' => 0,
         'unit' => '%',
         'maxValue' => 100,
-        'coords' => [80, 20, 10, 90],
+        'infinite' => false,
+        'radius' => 270,
+        'curves' => 'Quattro',
         'offsets' => [
-            '0%' => 'red',
-            '50%' => 'orange',
-            '100%' => 'limegreen'
+            'rgb(0, 255, 255)',
+            'rgb(0, 255, 0)',
+            'rgb(255, 255, 0)', 
+            'rgb(255, 128, 0)',
+            'rgb(255, 0, 0)',
+            'rgb(93, 0, 255)',
+            'rgb(255, 0, 195)',
+            'rgb(0, 0, 255)'
         ]
     ],
     'grayscale' => [
         'value' => 0,
         'unit' => '%',
         'maxValue' => 100,
-        'coords' => [80, 20, 10, 90],
+        'infinite' => false,
+        'radius' => 270,
+        'curves' => 'Quattro',
         'offsets' => [
-            '0%' => 'red',
-            '50%' => 'orange',
-            '100%' => 'limegreen'
+            'rgb(0, 255, 255)',
+            'rgb(0, 255, 0)',
+            'rgb(255, 255, 0)', 
+            'rgb(255, 128, 0)',
+            'rgb(255, 0, 0)',
+            'rgb(93, 0, 255)',
+            'rgb(255, 0, 195)',
+            'rgb(0, 0, 255)'
         ]
+    ]
+];
+
+$curves = [
+    "Trio" => [
+        "x1" => 28.3,
+        "y1" => 87.5,
+        "x2" => 71.7,
+        "y2" => 12.5,
+        "circleCount" => 3
+    ],
+    "Quattro" => [
+        "x1" => 67.7,
+        "y1" => 32.3,
+        "x2" => 32.3,
+        "y2" => 67.7,
+        "circleCount" => 4
     ]
 ];

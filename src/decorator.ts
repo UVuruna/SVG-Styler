@@ -1,5 +1,11 @@
-// DECORATIONS FOR METHODS
+declare global {
+    interface Window {
+        totalTime: number;
+    }
+}
+window.totalTime = 0;
 
+// DECORATIONS FOR METHODS
 
 export function MeasureExecutionTime(
     target: any,
@@ -20,8 +26,10 @@ export function MeasureExecutionTime(
     descriptor.value = function (...args: any[]) {
         const start = performance.now()
         const result = originalMethod.apply(this, args)
-        const end = performance.now()
-        console.log(`[${propertyKey}] executed in ${end - start} ms`)
+        const timeElapsed = performance.now() - start
+        window.totalTime += timeElapsed
+
+        console.log(`[${propertyKey}] executed in ${timeElapsed} ms`)
         return result
     }
     return descriptor
@@ -125,8 +133,9 @@ export function MeasureConstructionTime<T extends { new(...args: any[]): {} }>(c
         constructor(...args: any[]) {
             const start = performance.now();
             super(...args);
-            const end = performance.now();
-            console.log(`[${constructor.name}] instance created in ${end - start} ms`);
+            const timeElapsed = performance.now() - start
+            window.totalTime += timeElapsed
+            console.log(`[${constructor.name}] instance created in ${timeElapsed} ms`);
         }
     }
 }
