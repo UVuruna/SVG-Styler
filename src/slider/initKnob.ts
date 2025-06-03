@@ -2,7 +2,7 @@ import { KnobSlider } from './funcKnob.js'
 import * as decorator from '../decorator.js'
 
 export class SliderInitializer {
-    private static sliderElements: NodeListOf<HTMLElement>
+    public static sliderElements: NodeListOf<HTMLElement>
 
     @decorator.CatchErrors
     @decorator.MeasureExecutionTime

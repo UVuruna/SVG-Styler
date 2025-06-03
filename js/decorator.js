@@ -16,7 +16,7 @@ export function MeasureExecutionTime(target, propertyKey, descriptor) {
         const result = originalMethod.apply(this, args);
         const timeElapsed = performance.now() - start;
         window.totalTime += timeElapsed;
-        console.log(`[${propertyKey}] executed in ${timeElapsed} ms`);
+        console.log(`\t>>> Method - ${propertyKey} <<< >>> Executed in ${timeElapsed} ms`);
         return result;
     };
     return descriptor;
@@ -35,9 +35,9 @@ export function LogMethodCall(target, propertyKey, descriptor) {
     */
     const originalMethod = descriptor.value;
     descriptor.value = function (...args) {
-        console.log(`Calling method ${propertyKey} with arguments:`, args);
+        console.log(`>> Method ${propertyKey} << >> Calling with arguments: ${args}`);
         const result = originalMethod.apply(this, args);
-        console.log(`Method ${propertyKey} returned:`, result);
+        console.log(`>> Method - ${propertyKey} << >> Returning: ${result}`);
         return result;
     };
     return descriptor;
@@ -81,7 +81,7 @@ export function LogClassCreation(constructor) {
     */
     return class extends constructor {
         constructor(...args) {
-            console.log(`Creating instance of ${constructor.name} with arguments:`, args);
+            console.log(`|| CLASS - ${constructor.name} || >> Created with arguments: ${args}`);
             super(...args);
         }
     };
@@ -104,7 +104,7 @@ export function MeasureConstructionTime(constructor) {
             super(...args);
             const timeElapsed = performance.now() - start;
             window.totalTime += timeElapsed;
-            console.log(`[${constructor.name}] instance created in ${timeElapsed} ms`);
+            console.log(`\t||| CLASS - ${constructor.name} ||| >>> Executed in ${timeElapsed} ms`);
         }
     };
 }
@@ -126,7 +126,7 @@ export function CatchErrors(target, propertyKey, descriptor) {
             return originalMethod.apply(this, args);
         }
         catch (error) {
-            console.error(`>>>!!!!<<< [${propertyKey}] threw an error:`, error);
+            console.error(`\t>>>!!!! ${propertyKey} !!!!<<<\n\t\tError: ${error}`);
             return null;
         }
     };

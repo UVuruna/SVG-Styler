@@ -29,7 +29,7 @@ export function MeasureExecutionTime(
         const timeElapsed = performance.now() - start
         window.totalTime += timeElapsed
 
-        console.log(`[${propertyKey}] executed in ${timeElapsed} ms`)
+        console.log(`\t>>> Method - ${propertyKey} <<< >>> Executed in ${timeElapsed} ms`)
         return result
     }
     return descriptor
@@ -54,9 +54,9 @@ export function LogMethodCall(
     const originalMethod = descriptor.value
 
     descriptor.value = function (...args: any[]) {
-        console.log(`Calling method ${propertyKey} with arguments:`, args)
+        console.log(`>> Method ${propertyKey} << >> Calling with arguments: ${args}`)
         const result = originalMethod.apply(this, args)
-        console.log(`Method ${propertyKey} returned:`, result)
+        console.log(`>> Method - ${propertyKey} << >> Returning: ${result}`)
         return result
     }
     return descriptor
@@ -111,7 +111,7 @@ export function LogClassCreation<T extends new (...args: any[]) => {}>(construct
     */
     return class extends constructor {
         constructor(...args: any[]) {
-            console.log(`Creating instance of ${constructor.name} with arguments:`, args)
+            console.log(`|| CLASS - ${constructor.name} || >> Created with arguments: ${args}`)
             super(...args)
         }
     }
@@ -135,7 +135,7 @@ export function MeasureConstructionTime<T extends { new(...args: any[]): {} }>(c
             super(...args);
             const timeElapsed = performance.now() - start
             window.totalTime += timeElapsed
-            console.log(`[${constructor.name}] instance created in ${timeElapsed} ms`);
+            console.log(`\t||| CLASS - ${constructor.name} ||| >>> Executed in ${timeElapsed} ms`)
         }
     }
 }
@@ -163,7 +163,7 @@ export function CatchErrors(
         try {
             return originalMethod.apply(this, args)
         } catch (error) {
-            console.error(`>>>!!!!<<< [${propertyKey}] threw an error:`, error)
+            console.error(`\t>>>!!!! ${propertyKey} !!!!<<<\n\t\tError: ${error}`)
             return null
         }
     }

@@ -5,6 +5,7 @@
     "esbuild": "^0.25.5",
     "html-minifier": "^4.0.0",
     "jq": "^1.7.2",
+    "jsonminify": "^0.4.2",
     "svgo": "^3.3.2",
     "terser": "^5.40.0",
     "typescript": "^5.8.3"

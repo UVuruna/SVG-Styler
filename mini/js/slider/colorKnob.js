@@ -1,0 +1,1 @@
+export class colorizeKnob{constructor(t,s=[],o=""){this.stopElements=[],this.svgElement=t,this.colorsList=s;for(const t of this.svgElement.querySelectorAll("linearGradient"))for(const s of t.querySelectorAll("stop")){this.stopElements.push(s);const t=s.getAttribute("stop-color");this.colorsList.push(t)}}}
