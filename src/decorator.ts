@@ -163,7 +163,7 @@ export function CatchErrors(
         try {
             return originalMethod.apply(this, args)
         } catch (error) {
-            console.error(`[${propertyKey}] threw an error:`, error)
+            console.error(`>>>!!!!<<< [${propertyKey}] threw an error:`, error)
             return null
         }
     }

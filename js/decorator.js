@@ -126,7 +126,7 @@ export function CatchErrors(target, propertyKey, descriptor) {
             return originalMethod.apply(this, args);
         }
         catch (error) {
-            console.error(`[${propertyKey}] threw an error:`, error);
+            console.error(`>>>!!!!<<< [${propertyKey}] threw an error:`, error);
             return null;
         }
     };

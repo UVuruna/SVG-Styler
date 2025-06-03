@@ -19,7 +19,7 @@
     </main>
     <script type="module" src="./js/page/loadSVG.js"></script>
     <script type="module">
-        import { SliderInitializer } from './js/slider/initKnobSlider.js';
+        import { SliderInitializer } from './js/slider/initKnob.js';
 
         const sliders = <?= json_encode(
             array_map(function($s) {

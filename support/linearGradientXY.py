@@ -71,5 +71,5 @@ def executePlot(cX,cY,r,amount,offset_deg):
     plt.show()
     print('\n')
 
-executePlot(50,50,50,6,30)
-executePlot(50,50,50,4,45)
+executePlot(50,-50,50,6,150)
+executePlot(50,-50,50,4,45)
