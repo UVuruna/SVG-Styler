@@ -1,4 +1,10 @@
-<button id="loadSvgBtn">Load SVG</button>
+<div style="display: flex; flex-direction: row; width: 100%;">
+    <button style="margin: 0 auto;" id="loadSvgBtn">Load SVG</button>
+    <button style="margin: 0 auto;" id="applyFilter">Apply Filter</button>
+    <button style="margin: 0 auto;" id="resetSettings">Reset Settings</button>
+    <button style="margin: 0 auto;" id="exportSvg">Export SVG</button>
+</div>
 <label for="fileInput">Upload SVG File:</label>
 <input class="hidden" type="file" id="fileInput" accept=".svg" title="Select an SVG file to upload" />
-<div id="svgContainer"></div>
+<!-- Where the SVG will be injected -->
+<div id="svgContainer" style="max-height: 70vh; max-width: 98vw;"></div>

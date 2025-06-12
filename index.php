@@ -18,6 +18,7 @@
         <?php include 'html/knobSlider.php'; ?>
     </main>
     <script type="module" src="./js/page/loadSVG.js"></script>
+    <script type="module" src="./js/page/exportSvg.js"></script>
     <script type="module">
         import { SliderInitializer } from './js/slider/initKnob.js';
 

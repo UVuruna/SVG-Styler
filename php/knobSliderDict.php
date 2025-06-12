@@ -44,7 +44,7 @@ $sliders = [
             'rgb(255, 128, 0)'
         ]
     ],
-    'saturation' => [
+    'saturate' => [
         'value' => 100,
         'unit' => '%',
         'maxValue' => 200,
